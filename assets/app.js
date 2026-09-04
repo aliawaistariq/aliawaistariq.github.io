@@ -1,5 +1,13 @@
 (function () {
   var CONTENT_PATH = "content/portfolio.json";
+  var PROJECT_FILTERS = [
+    { key: "all", label: "All" },
+    { key: "web-development", label: "Web Development" },
+    { key: "seo", label: "SEO" },
+    { key: "ai-automation", label: "AI Automation" }
+  ];
+  var activeProjectFilter = "all";
+  var projectCache = [];
 
   function text(value, fallback) {
     if (typeof value === "string" && value.trim()) {
@@ -29,6 +37,10 @@
       node.textContent = textContent;
     }
     return node;
+  }
+
+  function clear(node) {
+    node.innerHTML = "";
   }
 
   function setText(id, value, fallback) {
@@ -173,6 +185,72 @@
       card.appendChild(details);
     }
 
+    var projectMeta = create("div", "project-meta-list");
+    if (project.category === "web-development" && project.webDevelopment) {
+      if (text(project.webDevelopment.websitePurpose, "")) {
+        var purpose = create("p", "project-meta-item");
+        purpose.innerHTML = "<strong>Website purpose:</strong> " + project.webDevelopment.websitePurpose;
+        projectMeta.appendChild(purpose);
+      }
+      if (array(project.webDevelopment.pagesFeatures).length) {
+        var pages = create("p", "project-meta-item");
+        pages.innerHTML = "<strong>Pages/features:</strong> " + array(project.webDevelopment.pagesFeatures).join(", ");
+        projectMeta.appendChild(pages);
+      }
+    }
+    if (project.category === "seo" && project.seo) {
+      if (text(project.seo.websiteBusiness, "")) {
+        var business = create("p", "project-meta-item");
+        business.innerHTML = "<strong>Website/business:</strong> " + project.seo.websiteBusiness;
+        projectMeta.appendChild(business);
+      }
+      if (text(project.seo.objective, "")) {
+        var objective = create("p", "project-meta-item");
+        objective.innerHTML = "<strong>SEO objective:</strong> " + project.seo.objective;
+        projectMeta.appendChild(objective);
+      }
+      if (text(project.seo.servicesWorkPerformed, "")) {
+        var services = create("p", "project-meta-item");
+        services.innerHTML = "<strong>SEO work:</strong> " + project.seo.servicesWorkPerformed;
+        projectMeta.appendChild(services);
+      }
+      if (text(project.seo.targetMarketLocation, "")) {
+        var market = create("p", "project-meta-item");
+        market.innerHTML = "<strong>Target market/location:</strong> " + project.seo.targetMarketLocation;
+        projectMeta.appendChild(market);
+      }
+      if (text(project.seo.verifiedResults, "")) {
+        var results = create("p", "project-meta-item");
+        results.innerHTML = "<strong>Verified results:</strong> " + project.seo.verifiedResults;
+        projectMeta.appendChild(results);
+      }
+    }
+    if (project.category === "ai-automation" && project.aiAutomation) {
+      if (text(project.aiAutomation.businessProblem, "")) {
+        var problem = create("p", "project-meta-item");
+        problem.innerHTML = "<strong>Business problem:</strong> " + project.aiAutomation.businessProblem;
+        projectMeta.appendChild(problem);
+      }
+      if (text(project.aiAutomation.automationWorkflow, "")) {
+        var workflow = create("p", "project-meta-item");
+        workflow.innerHTML = "<strong>Automation workflow:</strong> " + project.aiAutomation.automationWorkflow;
+        projectMeta.appendChild(workflow);
+      }
+      if (text(project.aiAutomation.aiFunctionality, "")) {
+        var aiFunctionality = create("p", "project-meta-item");
+        aiFunctionality.innerHTML = "<strong>AI functionality:</strong> " + project.aiAutomation.aiFunctionality;
+        projectMeta.appendChild(aiFunctionality);
+      }
+      if (array(project.aiAutomation.integrations).length) {
+        var integrations = create("p", "project-meta-item");
+        integrations.innerHTML = "<strong>Integrations:</strong> " + array(project.aiAutomation.integrations).join(", ");
+        projectMeta.appendChild(integrations);
+      }
+    }
+    if (projectMeta.children.length) {
+      card.appendChild(projectMeta);
+    }
+
     var tech = array(project.technologies).filter(Boolean);
     if (tech.length) {
       var techList = create("div", "tech-list");
@@ -197,6 +275,13 @@
       repo.rel = "noreferrer";
       links.appendChild(repo);
     }
+    if (project.category === "ai-automation" && project.aiAutomation && text(project.aiAutomation.demoUrl, "")) {
+      var demo = create("a", "project-link", "Demo");
+      demo.href = project.aiAutomation.demoUrl;
+      demo.target = "_blank";
+      demo.rel = "noreferrer";
+      links.appendChild(demo);
+    }
     if (links.children.length) {
       card.appendChild(links);
     }
@@ -208,14 +293,55 @@
     return card;
   }
 
+  function filterProjects(projects) {
+    if (activeProjectFilter === "all") {
+      return projects;
+    }
+    return projects.filter(function (project) {
+      return project.category === activeProjectFilter;
+    });
+  }
+
+  function renderProjectFilters() {
+    var filters = document.getElementById("project-filters");
+    clear(filters);
+    PROJECT_FILTERS.forEach(function (filter) {
+      var button = create("button", "filter-button" + (filter.key === activeProjectFilter ? " is-active" : ""), filter.label);
+      button.type = "button";
+      button.setAttribute("data-filter", filter.key);
+      button.addEventListener("click", function () {
+        activeProjectFilter = filter.key;
+        renderProjectFilters();
+        renderProjectList();
+      });
+      filters.appendChild(button);
+    });
+  }
+
+  function renderProjectList() {
+    var allGrid = document.getElementById("projects-grid");
+    clear(allGrid);
+    var filtered = filterProjects(projectCache);
+    if (filtered.length) {
+      filtered.forEach(function (project) {
+        allGrid.appendChild(buildProjectCard(project));
+      });
+    } else {
+      var emptyAll = create("div", "empty-state");
+      emptyAll.appendChild(create("p", "", "No projects found for this category yet."));
+      allGrid.appendChild(emptyAll);
+    }
+  }
+
   function renderProjects(data) {
     var projects = byOrder(array(data.projects));
+    projectCache = projects;
     var featured = projects.filter(function (project) {
       return project.featured === true;
     });
 
     var featuredGrid = document.getElementById("featured-projects-grid");
-    featuredGrid.innerHTML = "";
+    clear(featuredGrid);
     if (featured.length) {
       featured.forEach(function (project) {
         featuredGrid.appendChild(buildProjectCard(project));
@@ -225,18 +351,8 @@
       emptyFeatured.appendChild(create("p", "", "No featured projects yet. Mark a project with \"featured\": true in content/portfolio.json."));
       featuredGrid.appendChild(emptyFeatured);
     }
-
-    var allGrid = document.getElementById("projects-grid");
-    allGrid.innerHTML = "";
-    if (projects.length) {
-      projects.forEach(function (project) {
-        allGrid.appendChild(buildProjectCard(project));
-      });
-    } else {
-      var emptyAll = create("div", "empty-state");
-      emptyAll.appendChild(create("p", "", "No projects added yet."));
-      allGrid.appendChild(emptyAll);
-    }
+    renderProjectFilters();
+    renderProjectList();
   }
 
   function renderContact(data) {
