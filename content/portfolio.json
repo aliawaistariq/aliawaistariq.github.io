@@ -102,7 +102,7 @@
     {
       "id": "portfolio-site",
       "title": "Portfolio Website",
-      "category": "Personal Website",
+      "category": "web-development",
       "shortDescription": "Static GitHub Pages portfolio website for Ali Awais Tariq.",
       "description": "A lightweight static portfolio site structured for maintainable content updates through a single content file.",
       "role": "Needs confirmation",
@@ -118,7 +118,30 @@
       "featured": true,
       "displayOrder": 1,
       "caseStudy": "Initial portfolio foundation. Replace with a verified case study when available.",
-      "status": "Live"
+      "status": "Live",
+      "webDevelopment": {
+        "websitePurpose": "Personal portfolio website",
+        "pagesFeatures": [
+          "Homepage",
+          "Services section",
+          "Projects section",
+          "Contact section"
+        ]
+      },
+      "seo": {
+        "websiteBusiness": "",
+        "objective": "",
+        "servicesWorkPerformed": "",
+        "targetMarketLocation": "",
+        "verifiedResults": ""
+      },
+      "aiAutomation": {
+        "businessProblem": "",
+        "automationWorkflow": "",
+        "aiFunctionality": "",
+        "integrations": [],
+        "demoUrl": ""
+      }
     }
   ]
 }
