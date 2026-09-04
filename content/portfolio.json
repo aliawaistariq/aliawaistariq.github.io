@@ -1,0 +1,124 @@
+{
+  "profile": {
+    "name": "Ali Awais Tariq",
+    "headline": "Web Developer • SEO • AI Automation",
+    "heroTitle": "Building fast web experiences that convert.",
+    "heroEyebrow": "Web Developer • SEO • AI Automation",
+    "about": "I create modern web apps, SEO-focused websites, and practical AI automations that help businesses grow, streamline work, and ship faster.",
+    "location": "",
+    "availability": "Open to freelance work, web app builds, SEO projects, and AI automation work.",
+    "highlights": [
+      {
+        "title": "Web Apps",
+        "description": "Responsive interfaces, clean UX, scalable frontends, and practical product delivery."
+      },
+      {
+        "title": "SEO Growth",
+        "description": "Technical SEO thinking, content structure, and performance-first site optimization."
+      },
+      {
+        "title": "AI Automation",
+        "description": "Automated workflows, repetitive task reduction, and useful AI-assisted operations."
+      }
+    ]
+  },
+  "skills": [
+    {
+      "category": "Frontend Development",
+      "items": [
+        "Landing pages",
+        "Dashboards",
+        "Business websites",
+        "Responsive web interfaces"
+      ]
+    },
+    {
+      "category": "SEO-Focused Builds",
+      "items": [
+        "Structured content",
+        "Performance-minded implementation",
+        "Discoverability support"
+      ]
+    },
+    {
+      "category": "Automation Systems",
+      "items": [
+        "Workflow automation",
+        "AI-assisted processes",
+        "Operational efficiency"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "title": "Business Websites",
+      "description": "Professional websites for brands and businesses that need trust, speed, and clear conversion paths.",
+      "features": [
+        "Responsive design",
+        "Clear calls to action",
+        "Performance-focused delivery"
+      ]
+    },
+    {
+      "title": "Web Applications",
+      "description": "Functional products and internal tools that help users complete tasks efficiently with less friction.",
+      "features": [
+        "Interface design",
+        "Usability-focused layouts",
+        "Task-oriented flows"
+      ]
+    },
+    {
+      "title": "AI Workflow Solutions",
+      "description": "Smart integrations and automations that reduce manual work and improve day-to-day operations.",
+      "features": [
+        "Process automation",
+        "AI-assisted operations",
+        "Manual task reduction"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "title": "Experience entry placeholder",
+      "company": "",
+      "period": "",
+      "description": "Replace this placeholder with verified experience details."
+    }
+  ],
+  "contact": {
+    "email": "",
+    "phone": "",
+    "whatsapp": "",
+    "location": ""
+  },
+  "social": {
+    "github": "https://github.com/aliawaistariq",
+    "linkedin": "",
+    "website": "https://aliawaistariq.github.io/",
+    "otherLinks": []
+  },
+  "projects": [
+    {
+      "id": "portfolio-site",
+      "title": "Portfolio Website",
+      "category": "Personal Website",
+      "shortDescription": "Static GitHub Pages portfolio website for Ali Awais Tariq.",
+      "description": "A lightweight static portfolio site structured for maintainable content updates through a single content file.",
+      "role": "Needs confirmation",
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "GitHub Pages"
+      ],
+      "liveUrl": "https://aliawaistariq.github.io/",
+      "githubUrl": "",
+      "image": "",
+      "featured": true,
+      "displayOrder": 1,
+      "caseStudy": "Initial portfolio foundation. Replace with a verified case study when available.",
+      "status": "Live"
+    }
+  ]
+}
