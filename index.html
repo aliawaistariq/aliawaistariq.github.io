@@ -5,341 +5,92 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ali Awais Tariq | Web Developer</title>
   <meta name="description" content="Portfolio of Ali Awais Tariq, a web developer focused on web apps, SEO, and AI automation.">
-  <style>
-    :root {
-      --bg: #f4efe6;
-      --surface: rgba(255, 251, 245, 0.8);
-      --card: #fffaf2;
-      --ink: #1d1a17;
-      --muted: #5f584f;
-      --accent: #c45c2d;
-      --accent-dark: #8f3914;
-      --line: rgba(29, 26, 23, 0.1);
-      --shadow: 0 24px 60px rgba(34, 24, 10, 0.14);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at top left, rgba(196, 92, 45, 0.16), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(103, 145, 126, 0.18), transparent 25%),
-        linear-gradient(180deg, #f8f4eb 0%, #efe6d6 100%);
-      min-height: 100vh;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .wrap {
-      width: min(1100px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 60px;
-    }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      padding: 18px 22px;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: var(--surface);
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
-    }
-
-    .brand {
-      font-size: 0.95rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 28px;
-      margin-top: 28px;
-      align-items: stretch;
-    }
-
-    .panel {
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      background: var(--surface);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-main {
-      padding: 42px;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(196, 92, 45, 0.25);
-      color: var(--accent-dark);
-      background: rgba(255, 255, 255, 0.5);
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    h1, h2, h3, p {
-      margin: 0;
-    }
-
-    h1 {
-      margin-top: 18px;
-      font-size: clamp(2.8rem, 7vw, 5.5rem);
-      line-height: 0.96;
-      font-weight: 600;
-    }
-
-    .lead {
-      margin-top: 20px;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: var(--muted);
-      max-width: 58ch;
-    }
-
-    .cta-row {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 28px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 20px;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      font-size: 0.98rem;
-      transition: transform 180ms ease, background 180ms ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff8f1;
-      border-color: transparent;
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.55);
-    }
-
-    .hero-side {
-      padding: 28px;
-      display: grid;
-      gap: 16px;
-      align-content: center;
-    }
-
-    .mini-card {
-      padding: 20px;
-      border-radius: 22px;
-      background: var(--card);
-      border: 1px solid var(--line);
-    }
-
-    .mini-card strong {
-      display: block;
-      font-size: 1.05rem;
-      margin-bottom: 8px;
-    }
-
-    .mini-card span {
-      color: var(--muted);
-      line-height: 1.6;
-      display: block;
-    }
-
-    .section {
-      margin-top: 28px;
-      padding: 32px;
-    }
-
-    .section-title {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .skill, .project, .contact {
-      padding: 22px;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      background: var(--card);
-    }
-
-    .skill p, .project p, .contact p {
-      margin-top: 10px;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-
-    .project-tag {
-      display: inline-block;
-      margin-top: 14px;
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent-dark);
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .footer {
-      text-align: center;
-      color: var(--muted);
-      margin-top: 24px;
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 900px) {
-      .hero,
-      .grid,
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-main,
-      .hero-side,
-      .section {
-        padding: 24px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <div class="wrap">
     <nav class="nav">
-      <div class="brand">Ali Awais Tariq</div>
+      <div class="brand" id="brand-name">Ali Awais Tariq</div>
       <div class="nav-links">
+        <a href="#about">About</a>
         <a href="#skills">Skills</a>
+        <a href="#services">Services</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
       </div>
     </nav>
 
-    <section class="hero">
-      <div class="panel hero-main">
-        <span class="eyebrow">Web Developer • SEO • AI Automation</span>
-        <h1>Building fast web experiences that convert.</h1>
-        <p class="lead">
-          I create modern web apps, SEO-focused websites, and practical AI automations that help businesses grow, streamline work, and ship faster.
-        </p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://github.com/aliawaistariq" target="_blank" rel="noreferrer">View GitHub</a>
-          <a class="btn btn-secondary" href="#contact">Work With Me</a>
+    <main>
+      <section class="hero">
+        <div class="panel hero-main">
+          <span class="eyebrow" id="hero-eyebrow">Web Developer • SEO • AI Automation</span>
+          <h1 id="hero-headline">Building fast web experiences that convert.</h1>
+          <p class="lead" id="hero-about">
+            I create modern web apps, SEO-focused websites, and practical AI automations that help businesses grow, streamline work, and ship faster.
+          </p>
+          <div class="meta-list" id="profile-meta"></div>
+          <div class="cta-row" id="hero-cta"></div>
         </div>
-      </div>
 
-      <aside class="panel hero-side">
-        <div class="mini-card">
-          <strong>Web Apps</strong>
-          <span>Responsive interfaces, clean UX, scalable frontends, and practical product delivery.</span>
+        <aside class="panel hero-side">
+          <div id="hero-highlights" class="stack-list"></div>
+        </aside>
+      </section>
+
+      <section id="about" class="panel section">
+        <h2 class="section-title">About</h2>
+        <div class="two-col">
+          <div>
+            <p class="section-copy" id="about-copy"></p>
+          </div>
+          <div class="meta-panel">
+            <div class="mini-card">
+              <strong>Availability</strong>
+              <span id="availability-value"></span>
+            </div>
+            <div class="mini-card">
+              <strong>Location</strong>
+              <span id="location-value"></span>
+            </div>
+          </div>
         </div>
-        <div class="mini-card">
-          <strong>SEO Growth</strong>
-          <span>Technical SEO thinking, content structure, and performance-first site optimization.</span>
-        </div>
-        <div class="mini-card">
-          <strong>AI Automation</strong>
-          <span>Automated workflows, repetitive task reduction, and useful AI-assisted operations.</span>
-        </div>
-      </aside>
-    </section>
+      </section>
 
-    <section id="skills" class="panel section">
-      <h2 class="section-title">Core Skills</h2>
-      <div class="grid">
-        <article class="skill">
-          <h3>Frontend Development</h3>
-          <p>Landing pages, dashboards, business sites, and web interfaces designed for clarity, speed, and mobile usability.</p>
-        </article>
-        <article class="skill">
-          <h3>SEO-Focused Builds</h3>
-          <p>Structured content, performance-minded implementation, and pages designed to support discoverability.</p>
-        </article>
-        <article class="skill">
-          <h3>Automation Systems</h3>
-          <p>Workflow automation, AI-assisted processes, and systems that save time for teams and solo operators.</p>
-        </article>
-      </div>
-    </section>
+      <section id="skills" class="panel section">
+        <h2 class="section-title">Core Skills</h2>
+        <div class="grid" id="skills-grid"></div>
+      </section>
 
-    <section id="projects" class="panel section">
-      <h2 class="section-title">What I Build</h2>
-      <div class="grid">
-        <article class="project">
-          <h3>Business Websites</h3>
-          <p>Professional websites for brands and businesses that need trust, speed, and clear conversion paths.</p>
-          <span class="project-tag">Brand + Performance</span>
-        </article>
-        <article class="project">
-          <h3>Web Applications</h3>
-          <p>Functional products and internal tools that help users complete tasks efficiently with less friction.</p>
-          <span class="project-tag">Usability + Delivery</span>
-        </article>
-        <article class="project">
-          <h3>AI Workflow Solutions</h3>
-          <p>Smart integrations and automations that reduce manual work and improve day-to-day operations.</p>
-          <span class="project-tag">Automation + Efficiency</span>
-        </article>
-      </div>
-    </section>
+      <section id="services" class="panel section">
+        <h2 class="section-title">Services</h2>
+        <div class="grid" id="services-grid"></div>
+      </section>
 
-    <section id="contact" class="panel section">
-      <h2 class="section-title">Contact</h2>
-      <div class="contact-grid">
-        <article class="contact">
-          <h3>GitHub</h3>
-          <p><a href="https://github.com/aliawaistariq" target="_blank" rel="noreferrer">github.com/aliawaistariq</a></p>
-        </article>
-        <article class="contact">
-          <h3>Availability</h3>
-          <p>Open to freelance work, web app builds, SEO projects, and AI automation work.</p>
-        </article>
-      </div>
-    </section>
+      <section id="experience" class="panel section">
+        <h2 class="section-title">Experience</h2>
+        <div class="list-grid" id="experience-list"></div>
+      </section>
 
-    <div class="footer">© 2026 Ali Awais Tariq</div>
+      <section id="featured-projects" class="panel section">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="grid" id="featured-projects-grid"></div>
+      </section>
+
+      <section id="projects" class="panel section">
+        <h2 class="section-title">All Projects</h2>
+        <div class="grid" id="projects-grid"></div>
+      </section>
+
+      <section id="contact" class="panel section">
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-grid" id="contact-grid"></div>
+        <div class="social-links" id="social-links"></div>
+      </section>
+    </main>
+
+    <div class="footer" id="footer-copy">© 2026 Ali Awais Tariq</div>
   </div>
+
+  <script src="assets/app.js" defer></script>
 </body>
 </html>
