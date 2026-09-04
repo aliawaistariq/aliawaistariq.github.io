@@ -123,9 +123,17 @@ h1 {
   margin-top: 22px;
 }
 
+.filter-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
 .meta-chip,
 .social-link,
-.project-link {
+.project-link,
+.filter-button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -157,8 +165,19 @@ h1 {
 
 .btn:hover,
 .social-link:hover,
-.project-link:hover {
+.project-link:hover,
+.filter-button:hover {
   transform: translateY(-2px);
+}
+
+.filter-button {
+  cursor: pointer;
+}
+
+.filter-button.is-active {
+  background: var(--accent);
+  color: #fff8f1;
+  border-color: transparent;
 }
 
 .btn-primary {
@@ -279,6 +298,16 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--accent-dark);
+}
+
+.project-meta-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.project-meta-item strong {
+  color: var(--ink);
 }
 
 .project-details {
