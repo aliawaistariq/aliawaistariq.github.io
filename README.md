@@ -23,7 +23,7 @@ Each project in `content/portfolio.json` supports:
 {
   "id": "project-id",
   "title": "Project title",
-  "category": "Project category",
+  "category": "web-development",
   "shortDescription": "Short summary",
   "description": "Longer description",
   "role": "Your role or Needs confirmation",
@@ -34,19 +34,45 @@ Each project in `content/portfolio.json` supports:
   "featured": true,
   "displayOrder": 1,
   "caseStudy": "Verified case study notes",
-  "status": "Live"
+  "status": "Live",
+  "webDevelopment": {
+    "websitePurpose": "What the website is for",
+    "pagesFeatures": ["Homepage", "Contact form"]
+  },
+  "seo": {
+    "websiteBusiness": "",
+    "objective": "",
+    "servicesWorkPerformed": "",
+    "targetMarketLocation": "",
+    "verifiedResults": ""
+  },
+  "aiAutomation": {
+    "businessProblem": "",
+    "automationWorkflow": "",
+    "aiFunctionality": "",
+    "integrations": [],
+    "demoUrl": ""
+  }
 }
 ```
 
 `githubUrl` is optional. Leave it as an empty string when no public repository exists.
+
+Supported project categories:
+- `web-development`
+- `seo`
+- `ai-automation`
+
+Only fill the optional category-specific object that applies to the project. Leave unrelated optional fields empty.
 
 ## How To Add A Project
 
 1. Open `content/portfolio.json`.
 2. Add a new object to the `projects` array.
 3. Set a unique `id`.
-4. Set `displayOrder` to control where it appears.
-5. Add `liveUrl` and leave `githubUrl` empty if no repository is public.
+4. Set `category` to `web-development`, `seo`, or `ai-automation`.
+5. Set `displayOrder` to control where it appears.
+6. Add `liveUrl` and leave `githubUrl` empty if no repository is public.
 
 ## How To Mark A Project As Featured
 
@@ -57,6 +83,16 @@ Set:
 ```
 
 Projects marked `featured: true` appear automatically in the Featured Projects section.
+
+## Project Filters
+
+The Projects section automatically creates these filters from the shared project collection:
+- `All`
+- `Web Development`
+- `SEO`
+- `AI Automation`
+
+No project HTML needs to be edited manually. Update only `content/portfolio.json`.
 
 ## How To Add Project Images
 
