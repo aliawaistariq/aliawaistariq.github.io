@@ -78,14 +78,7 @@
       ]
     }
   ],
-  "experience": [
-    {
-      "title": "Experience entry placeholder",
-      "company": "",
-      "period": "",
-      "description": "Replace this placeholder with verified experience details."
-    }
-  ],
+  "experience": [],
   "contact": {
     "email": "",
     "phone": "",
@@ -105,7 +98,7 @@
       "category": "web-development",
       "shortDescription": "Static GitHub Pages portfolio website for Ali Awais Tariq.",
       "description": "A lightweight static portfolio site structured for maintainable content updates through a single content file.",
-      "role": "Needs confirmation",
+      "role": "",
       "technologies": [
         "HTML",
         "CSS",
@@ -117,7 +110,7 @@
       "image": "",
       "featured": true,
       "displayOrder": 1,
-      "caseStudy": "Initial portfolio foundation. Replace with a verified case study when available.",
+      "caseStudy": "",
       "status": "Live",
       "webDevelopment": {
         "websitePurpose": "Personal portfolio website",
