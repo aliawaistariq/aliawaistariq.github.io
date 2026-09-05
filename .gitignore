@@ -1,0 +1,11 @@
+# Local Awais OS workspace records
+project_brief.md
+project_log.md
+project_tracker.md
+notes/
+docs/
+deliverables/
+
+# Local OS/editor noise
+Thumbs.db
+.DS_Store
