@@ -8,12 +8,28 @@
   ];
   var activeProjectFilter = "all";
   var projectCache = [];
+  var CATEGORY_LABELS = {
+    "web-development": "Web Development",
+    "seo": "SEO",
+    "ai-automation": "AI Automation"
+  };
 
   function text(value, fallback) {
     if (typeof value === "string" && value.trim()) {
       return value.trim();
     }
     return fallback;
+  }
+
+  function hasText(value) {
+    return typeof value === "string" && value.trim().length > 0;
+  }
+
+  function isPlaceholder(value) {
+    if (!hasText(value)) {
+      return true;
+    }
+    return /needs update|needs confirmation|placeholder|replace this placeholder/i.test(value);
   }
 
   function array(value) {
@@ -40,7 +56,28 @@
   }
 
   function clear(node) {
-    node.innerHTML = "";
+    if (node) {
+      node.replaceChildren();
+    }
+  }
+
+  function showSection(id, shouldShow) {
+    var section = document.getElementById(id);
+    if (section) {
+      section.classList.toggle("hidden", !shouldShow);
+    }
+  }
+
+  function categoryLabel(category) {
+    return CATEGORY_LABELS[category] || text(category, "Project");
+  }
+
+  function createMetaItem(label, value) {
+    var item = create("p", "project-meta-item");
+    var strong = create("strong", "", label + ": ");
+    item.appendChild(strong);
+    item.appendChild(document.createTextNode(value));
+    return item;
   }
 
   function setText(id, value, fallback) {
@@ -67,8 +104,16 @@
     setText("hero-headline", profile.heroTitle || profile.headline, "Headline placeholder");
     setText("hero-about", profile.about, "About placeholder. Add your professional summary in content/portfolio.json.");
     setText("about-copy", profile.about, "About placeholder. Add your professional summary in content/portfolio.json.");
-    setText("availability-value", profile.availability, "Needs update");
-    setText("location-value", profile.location, "Needs update");
+    var availabilityCard = document.getElementById("availability-value")?.closest(".mini-card");
+    var locationCard = document.getElementById("location-value")?.closest(".mini-card");
+    if (availabilityCard) {
+      availabilityCard.classList.toggle("hidden", !hasText(profile.availability));
+    }
+    if (locationCard) {
+      locationCard.classList.toggle("hidden", !hasText(profile.location));
+    }
+    setText("availability-value", profile.availability, "");
+    setText("location-value", profile.location, "");
     setText("footer-copy", "© 2026 " + text(profile.name, "Portfolio"), "© 2026 Portfolio");
 
     var profileMeta = document.getElementById("profile-meta");
@@ -94,19 +139,16 @@
     heroCta.appendChild(secondary);
 
     var highlights = document.getElementById("hero-highlights");
-    highlights.innerHTML = "";
+    clear(highlights);
     array(profile.highlights).forEach(function (item) {
+      if (!hasText(item.title) && !hasText(item.description)) {
+        return;
+      }
       var card = create("div", "mini-card");
       card.appendChild(create("strong", "", text(item.title, "Highlight")));
-      card.appendChild(create("span", "", text(item.description, "Needs update")));
+      card.appendChild(create("span", "", text(item.description, "")));
       highlights.appendChild(card);
     });
-    if (!highlights.children.length) {
-      var placeholder = create("div", "mini-card");
-      placeholder.appendChild(create("strong", "", "Highlights"));
-      placeholder.appendChild(create("span", "", "Add summary highlights in content/portfolio.json."));
-      highlights.appendChild(placeholder);
-    }
   }
 
   function renderSkills(data) {
@@ -141,19 +183,25 @@
 
   function renderExperience(data) {
     var list = document.getElementById("experience-list");
-    list.innerHTML = "";
-    array(data.experience).forEach(function (entry) {
+    clear(list);
+    var entries = array(data.experience).filter(function (entry) {
+      return !isPlaceholder(entry.title) || !isPlaceholder(entry.company) || !isPlaceholder(entry.period) || !isPlaceholder(entry.description);
+    });
+    showSection("experience", entries.length > 0);
+    entries.forEach(function (entry) {
       var card = create("article", "experience-card");
-      card.appendChild(create("h3", "", text(entry.title, "Experience title")));
-      card.appendChild(create("div", "experience-meta", [text(entry.company, "Needs update"), text(entry.period, "Needs update")].filter(Boolean).join(" • ")));
-      card.appendChild(create("p", "", text(entry.description, "Experience description placeholder.")));
+      if (hasText(entry.title)) {
+        card.appendChild(create("h3", "", entry.title));
+      }
+      var meta = [entry.company, entry.period].filter(hasText).join(" • ");
+      if (meta) {
+        card.appendChild(create("div", "experience-meta", meta));
+      }
+      if (hasText(entry.description)) {
+        card.appendChild(create("p", "", entry.description));
+      }
       list.appendChild(card);
     });
-    if (!list.children.length) {
-      var empty = create("div", "empty-state");
-      empty.appendChild(create("p", "", "No experience entries added yet."));
-      list.appendChild(empty);
-    }
   }
 
   function buildProjectCard(project) {
@@ -165,8 +213,8 @@
     }
     card.appendChild(top);
 
-    if (text(project.category, "")) {
-      card.appendChild(create("span", "project-category", project.category));
+    if (hasText(project.category)) {
+      card.appendChild(create("span", "project-category", categoryLabel(project.category)));
     }
 
     card.appendChild(create("p", "", text(project.shortDescription, "Project summary placeholder.")));
@@ -175,10 +223,10 @@
     if (text(project.description, "")) {
       details.appendChild(create("p", "", project.description));
     }
-    if (text(project.role, "")) {
+    if (!isPlaceholder(project.role)) {
       details.appendChild(create("p", "", "Role: " + project.role));
     }
-    if (text(project.caseStudy, "")) {
+    if (!isPlaceholder(project.caseStudy)) {
       details.appendChild(create("p", "", "Case study notes: " + project.caseStudy));
     }
     if (details.children.length) {
@@ -188,63 +236,41 @@
     var projectMeta = create("div", "project-meta-list");
     if (project.category === "web-development" && project.webDevelopment) {
       if (text(project.webDevelopment.websitePurpose, "")) {
-        var purpose = create("p", "project-meta-item");
-        purpose.innerHTML = "<strong>Website purpose:</strong> " + project.webDevelopment.websitePurpose;
-        projectMeta.appendChild(purpose);
+        projectMeta.appendChild(createMetaItem("Website purpose", project.webDevelopment.websitePurpose));
       }
       if (array(project.webDevelopment.pagesFeatures).length) {
-        var pages = create("p", "project-meta-item");
-        pages.innerHTML = "<strong>Pages/features:</strong> " + array(project.webDevelopment.pagesFeatures).join(", ");
-        projectMeta.appendChild(pages);
+        projectMeta.appendChild(createMetaItem("Pages/features", array(project.webDevelopment.pagesFeatures).join(", ")));
       }
     }
     if (project.category === "seo" && project.seo) {
       if (text(project.seo.websiteBusiness, "")) {
-        var business = create("p", "project-meta-item");
-        business.innerHTML = "<strong>Website/business:</strong> " + project.seo.websiteBusiness;
-        projectMeta.appendChild(business);
+        projectMeta.appendChild(createMetaItem("Website/business", project.seo.websiteBusiness));
       }
       if (text(project.seo.objective, "")) {
-        var objective = create("p", "project-meta-item");
-        objective.innerHTML = "<strong>SEO objective:</strong> " + project.seo.objective;
-        projectMeta.appendChild(objective);
+        projectMeta.appendChild(createMetaItem("SEO objective", project.seo.objective));
       }
       if (text(project.seo.servicesWorkPerformed, "")) {
-        var services = create("p", "project-meta-item");
-        services.innerHTML = "<strong>SEO work:</strong> " + project.seo.servicesWorkPerformed;
-        projectMeta.appendChild(services);
+        projectMeta.appendChild(createMetaItem("SEO work", project.seo.servicesWorkPerformed));
       }
       if (text(project.seo.targetMarketLocation, "")) {
-        var market = create("p", "project-meta-item");
-        market.innerHTML = "<strong>Target market/location:</strong> " + project.seo.targetMarketLocation;
-        projectMeta.appendChild(market);
+        projectMeta.appendChild(createMetaItem("Target market/location", project.seo.targetMarketLocation));
       }
       if (text(project.seo.verifiedResults, "")) {
-        var results = create("p", "project-meta-item");
-        results.innerHTML = "<strong>Verified results:</strong> " + project.seo.verifiedResults;
-        projectMeta.appendChild(results);
+        projectMeta.appendChild(createMetaItem("Verified results", project.seo.verifiedResults));
       }
     }
     if (project.category === "ai-automation" && project.aiAutomation) {
       if (text(project.aiAutomation.businessProblem, "")) {
-        var problem = create("p", "project-meta-item");
-        problem.innerHTML = "<strong>Business problem:</strong> " + project.aiAutomation.businessProblem;
-        projectMeta.appendChild(problem);
+        projectMeta.appendChild(createMetaItem("Business problem", project.aiAutomation.businessProblem));
       }
       if (text(project.aiAutomation.automationWorkflow, "")) {
-        var workflow = create("p", "project-meta-item");
-        workflow.innerHTML = "<strong>Automation workflow:</strong> " + project.aiAutomation.automationWorkflow;
-        projectMeta.appendChild(workflow);
+        projectMeta.appendChild(createMetaItem("Automation workflow", project.aiAutomation.automationWorkflow));
       }
       if (text(project.aiAutomation.aiFunctionality, "")) {
-        var aiFunctionality = create("p", "project-meta-item");
-        aiFunctionality.innerHTML = "<strong>AI functionality:</strong> " + project.aiAutomation.aiFunctionality;
-        projectMeta.appendChild(aiFunctionality);
+        projectMeta.appendChild(createMetaItem("AI functionality", project.aiAutomation.aiFunctionality));
       }
       if (array(project.aiAutomation.integrations).length) {
-        var integrations = create("p", "project-meta-item");
-        integrations.innerHTML = "<strong>Integrations:</strong> " + array(project.aiAutomation.integrations).join(", ");
-        projectMeta.appendChild(integrations);
+        projectMeta.appendChild(createMetaItem("Integrations", array(project.aiAutomation.integrations).join(", ")));
       }
     }
     if (projectMeta.children.length) {
@@ -357,21 +383,24 @@
 
   function renderContact(data) {
     var grid = document.getElementById("contact-grid");
-    grid.innerHTML = "";
+    clear(grid);
     [
       { title: "Email", value: (data.contact || {}).email || "" },
       { title: "Phone", value: (data.contact || {}).phone || "" },
       { title: "WhatsApp", value: (data.contact || {}).whatsapp || "" },
       { title: "Location", value: (data.contact || {}).location || (data.profile || {}).location || "" }
     ].forEach(function (item) {
+      if (!hasText(item.value)) {
+        return;
+      }
       var card = create("article", "contact");
       card.appendChild(create("h3", "", item.title));
-      card.appendChild(create("p", "", text(item.value, "Needs update")));
+      card.appendChild(create("p", "", item.value));
       grid.appendChild(card);
     });
 
     var socials = document.getElementById("social-links");
-    socials.innerHTML = "";
+    clear(socials);
     var socialEntries = [];
     var social = data.social || {};
     if (text(social.github, "")) {
@@ -396,6 +425,7 @@
       link.rel = "noreferrer";
       socials.appendChild(link);
     });
+    showSection("contact", grid.children.length > 0 || socials.children.length > 0);
   }
 
   function render(data) {
@@ -419,9 +449,11 @@
     })
     .catch(function (error) {
       console.error(error);
-      document.body.insertAdjacentHTML(
-        "beforeend",
-        '<div class="wrap"><div class="panel section"><h2 class="section-title">Content Load Error</h2><p class="section-copy">Portfolio content could not be loaded. Check <code>content/portfolio.json</code>.</p></div></div>'
-      );
+      var wrap = create("div", "wrap");
+      var panel = create("div", "panel section");
+      panel.appendChild(create("h2", "section-title", "Content Load Error"));
+      panel.appendChild(create("p", "section-copy", "Portfolio content could not be loaded. Check content/portfolio.json."));
+      wrap.appendChild(panel);
+      document.body.appendChild(wrap);
     });
 })();
