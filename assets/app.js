@@ -1,5 +1,5 @@
 (function () {
-  var CONTENT_PATH = "content/portfolio.json";
+  var CONTENT_PATH = "content/portfolio.json?v=20260905-cleanup";
   var PROJECT_FILTERS = [
     { key: "all", label: "All" },
     { key: "web-development", label: "Web Development" },
@@ -99,11 +99,11 @@
   function renderProfile(data) {
     var profile = data.profile || {};
     setDocumentMeta(profile);
-    setText("brand-name", profile.name, "Name placeholder");
-    setText("hero-eyebrow", profile.heroEyebrow || profile.headline, "Headline placeholder");
-    setText("hero-headline", profile.heroTitle || profile.headline, "Headline placeholder");
-    setText("hero-about", profile.about, "About placeholder. Add your professional summary in content/portfolio.json.");
-    setText("about-copy", profile.about, "About placeholder. Add your professional summary in content/portfolio.json.");
+    setText("brand-name", profile.name, "Portfolio");
+    setText("hero-eyebrow", profile.heroEyebrow || profile.headline, "Professional Portfolio");
+    setText("hero-headline", profile.heroTitle || profile.headline, "Professional Portfolio");
+    setText("hero-about", profile.about, "");
+    setText("about-copy", profile.about, "");
     var availabilityCard = document.getElementById("availability-value")?.closest(".mini-card");
     var locationCard = document.getElementById("location-value")?.closest(".mini-card");
     if (availabilityCard) {
@@ -117,7 +117,7 @@
     setText("footer-copy", "© 2026 " + text(profile.name, "Portfolio"), "© 2026 Portfolio");
 
     var profileMeta = document.getElementById("profile-meta");
-    profileMeta.innerHTML = "";
+    clear(profileMeta);
     [profile.location, profile.availability].forEach(function (item) {
       if (text(item, "")) {
         profileMeta.appendChild(create("span", "meta-chip", item));
@@ -125,7 +125,7 @@
     });
 
     var heroCta = document.getElementById("hero-cta");
-    heroCta.innerHTML = "";
+    clear(heroCta);
     var primaryLink = (data.social || {}).github || "";
     var primary = create("a", "btn btn-primary", primaryLink ? "View GitHub" : "Update Social Links");
     primary.href = primaryLink || "#contact";
@@ -153,7 +153,7 @@
 
   function renderSkills(data) {
     var grid = document.getElementById("skills-grid");
-    grid.innerHTML = "";
+    clear(grid);
     array(data.skills).forEach(function (group) {
       var card = create("article", "skill");
       card.appendChild(create("h3", "", text(group.category, "Skill category")));
@@ -164,11 +164,11 @@
 
   function renderServices(data) {
     var grid = document.getElementById("services-grid");
-    grid.innerHTML = "";
+    clear(grid);
     array(data.services).forEach(function (service) {
       var card = create("article", "service-card");
       card.appendChild(create("h3", "", text(service.title, "Service title")));
-      card.appendChild(create("p", "", text(service.description, "Service description placeholder.")));
+      card.appendChild(create("p", "", text(service.description, "Service details coming soon.")));
       var features = array(service.features);
       if (features.length) {
         var list = create("div", "service-features");
@@ -217,7 +217,7 @@
       card.appendChild(create("span", "project-category", categoryLabel(project.category)));
     }
 
-    card.appendChild(create("p", "", text(project.shortDescription, "Project summary placeholder.")));
+    card.appendChild(create("p", "", text(project.shortDescription, "Project details coming soon.")));
 
     var details = create("div", "project-details");
     if (text(project.description, "")) {
